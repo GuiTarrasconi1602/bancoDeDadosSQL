@@ -1,0 +1,125 @@
+// TODOS OS EXERCICIOS FORAM DESENVOLVIDOS NA PLATAFORMA https://sqlzoo.net/wiki. ANTES DE CADA CATEGORIA DE EXERCÍCIO CONSTA O LINK QUE REDIRECIONA PARA SUAS PROPOSTAS
+
+1. https://sqlzoo.net/wiki/SELECT_from_WORLD_Tutorial:
+
+    • 5
+    SELECT name, population
+    FROM world
+    WHERE name IN ('France', 'Germany', 'Italy')
+    
+    • 6
+    SELECT name
+    FROM world
+    WHERE name like ('%United%')
+    
+    • 8
+    SELECT name, population, area
+    FROM world
+    WHERE (area > 3000000 OR population > 250000000) AND NOT (population > 
+    250000000 AND area > 3000000)
+    
+    
+2. https://sqlzoo.net/wiki/SELECT_from_Nobel_Tutorial:
+
+    • 8
+    SELECT yr, subject, winner
+    FROM nobel
+    WHERE (yr = 1980 AND subject = 'physics') or (yr = 1984 AND subject = 'chemistry')
+    
+    • 9
+    SELECT yr, subject, winner
+    FROM nobel
+    WHERE (yr = 1980) AND NOT (subject = 'chemistry' or subject ='medicine')
+    
+    • 13
+    SELECT winner, yr, subject 
+    FROM nobel
+    WHERE winner LIKE 'Sir%'
+    ORDER BY yr DESC, winner
+    
+    
+3. https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial:
+
+    • 2
+    SELECT name 
+    FROM world
+    WHERE continent = 'Europe' AND (gdp/population > 
+    (SELECT gdp/population FROM world WHERE name = 'United Kingdom'))
+    
+    • 3
+    SELECT name, continent
+    FROM world
+    WHERE continent IN (SELECT continent FROM world WHERE name = 'Argentina' OR 
+    name = 'Australia')
+    
+    • 4
+    SELECT name, population
+    FROM world
+    WHERE population >(SELECT population FROM world WHERE name = 'United 
+    Kingdom') AND population <(SELECT population FROM world WHERE name = 
+    'Germany')
+    
+    • 6 
+    SELECT name
+    FROM world
+    WHERE GDP > ALL(SELECT GDP FROM world where continent = 'Europe' AND GDP > 0)
+    
+    
+4. https://sqlzoo.net/wiki/SUM_and_COUNT:
+
+    • 5
+    SELECT SUM(population)
+    FROM world
+    WHERE name IN('Estonia', 'Latvia', 'Lithuania')
+    
+    • 6
+    SELECT continent, COUNT(name)
+    From world 
+    GROUP BY continent
+    
+5. https://sqlzoo.net/wiki/The_JOIN_operation :
+
+    • 6
+    SELECT mdate, teamname 
+    FROM game JOIN eteam ON (team1 = eteam.id)
+    WHERE coach = 'Fernando Santos'
+    
+    • 7
+    SELECT player 
+    FROM game JOIN goal ON (matchid = id)
+    WHERE stadium = 'National Stadium, Warsaw'
+    
+    • 10
+    SELECT stadium, COUNT(*)
+    FROM game JOIN goal ON (matchid = id)
+    GROUP BY Stadium
+    
+    
+6. https://sqlzoo.net/wiki/More_JOIN_operations
+
+    • 5
+    SELECT id
+    FROM movie
+    WHERE title= 'Casablanca'
+    
+    • 7
+    SELECT name
+    FROM actor JOIN casting ON (actor.id= actorid) JOIN movie ON (movie.id = movieid)
+    WHERE title = 'Alien'
+    
+    • 9
+    SELECT title
+    FROM actor JOIN casting ON (actor.id= actorid) JOIN movie ON (movie.id = movieid)
+    WHERE (actor.name = 'Harrison Ford') AND NOT (ord=1)
+    
+    • 13
+    SELECT name
+    FROM actor JOIN casting ON (id = actorid)
+    WHERE (SELECT COUNT(ord) FROM casting WHERE actorid = actor.id AND ord=1)>=15
+    GROUP BY name
+    
+    • 15
+    SELECT name
+    FROM actor JOIN casting ON (id = actorid)
+    WHERE movieid IN (SELECT movieid FROM casting JOIN actor ON (name='Art 
+    Garfunkel' AND actorid=id)) AND NOT name = ('Art Garfunkel'
